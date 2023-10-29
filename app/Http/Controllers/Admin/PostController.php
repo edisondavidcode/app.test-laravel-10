@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -33,9 +34,16 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+       $post = Post::create($request->all());
+
+       if ($request->tags) {
+        $post->tags()->attach($request->tags);
+       }
+
+       return redirect()->route('admin.posts.edit',$post);
+
     }
 
     /**
@@ -51,6 +59,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        
         return view('admin.posts.edit', compact('post'));
     }
 

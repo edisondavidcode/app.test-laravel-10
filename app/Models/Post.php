@@ -12,7 +12,7 @@ use App\Models\Image;
 class Post extends Model
 {
     use HasFactory;
-
+    protected $guarded = ['id', 'created_at', 'updated_at'];
     //relacion 1 a muchos inversa
 
     public function user()

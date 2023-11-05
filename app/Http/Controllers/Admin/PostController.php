@@ -60,6 +60,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        
         return view('admin.posts.create', compact('post'));
     }
 
@@ -68,6 +69,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('author', $post);
+
         $categories = Category::pluck('name', 'id');
         $tags = Tag::all();
         return view('admin.posts.edit', compact('post', 'categories', 'tags'));
@@ -78,6 +81,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('author', $post);
+
         $post->update($request->all());
         if ($request->file('file')) {
             $url = Storage::put('posts', $request->file('file'));
@@ -107,6 +112,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('author', $post);
         $post->delete();
         return redirect()->route('admin.posts.index', $post)->with('info', 'El post se elimino con exito');
     }

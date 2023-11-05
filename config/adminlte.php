@@ -316,6 +316,11 @@ return [
             'route'         => 'admin.home',
             'icon'        => 'fas fa-columns fa-fw',
         ],
+        [
+            'text'        => 'Usuarios',
+            'route'         => 'admin.users.index',
+            'icon'        => 'fas fa-users fa-fw',
+        ],
         ['header' => 'Administrador'],
         [
             'text' => 'Categorias',

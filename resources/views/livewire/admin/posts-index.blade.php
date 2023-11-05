@@ -28,7 +28,7 @@
                                 </a>
                             </td>
                             <td width = '10px'>
-                                <form action="{{ route('admin.posts.destroy', $post) }}" method="post">
+                                <form action="{{ route('admin.posts.destroy', $post) }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>

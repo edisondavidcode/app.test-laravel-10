@@ -1,0 +1,16 @@
+<div class="form-group">
+    {!! Form::label('name', 'Nombre') !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Escribe aqui el nombre del rol']) !!}
+</div>
+
+@error('name')
+    <small class="text-danger">{{ $message }}</small>
+@enderror
+
+<h2 class="h3">Lista de permisos</h2>
+@foreach ($permissions as $permission)
+    <div>
+        <label> {!! Form::checkbox('permissions[]', $permission->id, null, ['class' => 'mr-1']) !!}</label>
+        {{ $permission->description }}
+    </div>
+@endforeach

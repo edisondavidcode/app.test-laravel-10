@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('can:admin.posts.index')->only('index');
+        $this->middleware('can:admin.posts.create')->only('create', 'store');
+        $this->middleware('can:admin.posts.edit')->only('update', 'edit');
+        $this->middleware('can:admin.posts.destroy')->only('destroy');
+    }
     public function index()
     {
         $post = Post::all();
@@ -22,9 +26,6 @@ class PostController extends Controller
         return view('admin.posts.index', compact('post'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = Category::pluck('name', 'id');
@@ -32,9 +33,6 @@ class PostController extends Controller
         return view('admin.posts.create', compact('categories', 'tags'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(PostRequest $request)
     {
 
@@ -55,18 +53,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts.edit', $post);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        
-        return view('admin.posts.create', compact('post'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Post $post)
     {
         $this->authorize('author', $post);
@@ -76,9 +62,6 @@ class PostController extends Controller
         return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Post $post)
     {
         $this->authorize('author', $post);
@@ -107,9 +90,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts.edit', $post)->with('info', 'El post de actualizo con exito');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Post $post)
     {
         $this->authorize('author', $post);
